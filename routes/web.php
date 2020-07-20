@@ -21,3 +21,7 @@ Route::get('/', function () {
 Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('/task_statuses', 'TaskStatusController')->except('show')->middleware('auth');
+
+Route::get('/task_statuses', 'TaskStatusController@index')->name('task_statuses.index');
