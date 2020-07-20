@@ -25,8 +25,7 @@ class TaskStatusController extends Controller
      */
     public function create()
     {
-        $taskStatus = new TaskStatus();
-        return view('task_status.create', compact('taskStatus'));
+        return view('task_status.create');
     }
     /**
      * Store a newly created resource in storage.
