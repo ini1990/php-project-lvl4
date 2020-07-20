@@ -74,5 +74,4 @@ class TaskStatusControllerTest extends TestCase
 
         $this->assertSoftDeleted('task_statuses', ['id' => $taskStatus->id]);
     }
-
 }

@@ -52,7 +52,8 @@ class TaskStatusController extends Controller
      */
     public function edit(TaskStatus $taskStatus)
     {
-        return view('task_status.edit', compact('taskStatus'));    }
+        return view('task_status.edit', compact('taskStatus'));
+    }
 
     /**
      * Update the specified resource in storage.
