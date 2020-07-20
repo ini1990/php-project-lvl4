@@ -36,6 +36,12 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
+        if ($exception instanceof ValidationException) {
+            foreach ($exception->validator->errors()->all() as $message) {
+                flash($message)->error();
+            }
+        }
+
         parent::report($exception);
     }
 
