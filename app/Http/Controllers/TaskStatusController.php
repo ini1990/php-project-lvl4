@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class TaskStatusController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -35,11 +39,12 @@ class TaskStatusController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, ['name' => 'required']);
-        $taskStatus = new TaskStatus();
-        $taskStatus->name = $request->input('name');
-        $taskStatus->saveOrFail();
-        flash()->success(__('Success'));
+        $validatedData = $request->validate([
+            'name' => 'required|max:255|unique:task_statuses',
+        ]);
+        TaskStatus::create($validatedData);
+
+        flash()->success(__('flashes.taskStatus.store'));
         return redirect()->route('task_statuses.index');
     }
 
@@ -63,10 +68,12 @@ class TaskStatusController extends Controller
      */
     public function update(Request $request, TaskStatus $taskStatus)
     {
-        $this->validate($request, ['name' => 'required']);
-        $taskStatus->name = $request->input('name');
-        $taskStatus->saveOrFail();
-        flash()->success(__('Success'));
+        $validatedData = $request->validate([
+            'name' => 'required|max:255|unique:task_statuses',
+        ]);
+        $taskStatus->fill($validatedData)->save();
+
+        flash()->success(__('flashes.taskStatus.update'));
 
         return redirect()->route('task_statuses.index');
     }
@@ -80,7 +87,8 @@ class TaskStatusController extends Controller
     public function destroy(TaskStatus $taskStatus)
     {
         $taskStatus->delete();
+        flash()->success(__('flashes.taskStatus.destroy'));
 
-        return redirect()->route('task_statuses.index')->with('success', __('Done'));
+        return back();
     }
 }

@@ -11,7 +11,7 @@ class TaskStatusSeeder extends Seeder
      */
     public function run()
     {
-        $statuses = collect(['new', 'in work', 'on testing', 'completed']);
-        $statuses->each(fn ($item) => \App\TaskStatus::create(['name' => $item]));
+        collect(['new', 'in work', 'on testing', 'completed'])
+        ->each(fn ($status) => \App\TaskStatus::create(['name' => $status]));
     }
 }
