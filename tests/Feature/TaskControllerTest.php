@@ -18,7 +18,6 @@ class TaskControllerTest extends TestCase
         $this->task = factory(\App\Task::class)->create([
             'created_by_id' => $this->user->id
         ]);
-        //dd($this->task);
         $this->actingAs($this->user);
     }
 
@@ -60,16 +59,16 @@ class TaskControllerTest extends TestCase
 
     public function testDestroy()
     {
+        $this->assertFalse(\Auth::user()->can('delete', $this->task));
+        $response = $this->delete(route('tasks.destroy', $this->task));
+        $response->assertStatus(403);
+
+        \Gate::before(fn () => $this->task->created_by_id === \Auth::id());
+        $this->assertTrue(\Auth::user()->can('delete', $this->task));
+
         $response = $this->delete(route('tasks.destroy', $this->task));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('tasks.index'));
         $this->assertDatabaseMissing('tasks', ['id', $this->task->id]);
-
-        $anotherUser = factory(\App\User::class)->create();
-        $anotherTask = factory(\App\Task::class)->create([
-            'created_by_id' => $anotherUser->id
-        ]);
-        $response = $this->delete(route('tasks.destroy', $anotherTask));
-        $response->assertStatus(403);
     }
 }

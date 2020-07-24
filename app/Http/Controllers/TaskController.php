@@ -48,7 +48,7 @@ class TaskController extends Controller
             'status_id' => 'required',
             'assigned_to_id' => 'max:255'
         ]);
-        Task::create($validatedData + ['created_by_id' => auth()->user()->id]);
+        Task::create($validatedData + ['created_by_id' => \Auth::id()]);
 
         flash()->success(__('flashes.task.store'));
         return redirect()->route('tasks.index');
@@ -106,9 +106,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        if ($task->createdBy->id !==  \Auth::id()) {
-            abort(403);
-        }
+        \Gate::authorize('delete-task', $task);
 
         $task->delete();
         flash()->success(__('flashes.task.destroy'));
