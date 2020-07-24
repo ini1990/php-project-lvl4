@@ -30,11 +30,11 @@
                     {{ config('app.name', 'Laravel') }}
                 </a>
                 <a class="navbar" href="{{ route('tasks.index') }}">
-                    {{__('models.task.tasks')}}
+                    {{__('layauts.app.tasks')}}
                 </a>
 
                 <a class="navbar" href="{{ route('task_statuses.index') }}">
-                    {{__('models.taskStatus.taskStatuses')}}
+                    {{__('layauts.app.statuses')}}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"

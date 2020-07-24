@@ -2,15 +2,17 @@
 
 return [
     'taskStatus' => [
-        'taskStatuses' => 'Task Statuses',
-        'id' => 'id',
+        'id' => 'Id',
         'name' => 'Name',
-        'created_at' => 'Created At'
+        'createdAt' => 'Created At'
     ],
     'task' => [
-        'tasks' => 'Tasks',
-        'id' => 'id',
+        'id' => 'Id',
         'name' => 'Name',
-        'created_at' => 'Created At'
+        'createdAt' => 'Created At',
+        'status' => 'Status',
+        'description' => 'Description',
+        'assignee' => 'Assignee',
+        'creator' => 'Creator'
     ]
 ];

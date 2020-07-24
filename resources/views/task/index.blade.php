@@ -1,23 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1 class="mb-5">{{ __('view.task.index.tasks') }}</h1>
+    <h1 class="mb-5">{{ __('views.task.index.list') }}</h1>
     <div class="d-flex">
         @auth
-        <a href="{{ route('tasks.create') }}" class="btn btn-primary ml-auto">{{ __('view.task.index.add_new') }}</a>
+        <a href="{{ route('tasks.create') }}" class="btn btn-primary ml-auto">{{ __('views.task.index.addNewTask') }}</a>
         @endauth
     </div>
     <table class="table mt-2">
         <thead>
             <tr>
-                <th>{{ __('id') }}</th>
-                <th>{{ __('status') }}</th>
-                <th>{{ __('name') }}</th>
-                <th>{{ __('author') }}</th>
-                <th>{{ __('assignee') }}</th>
-                <th>{{ __('created_at') }}</th>
+                <th>{{ __('models.task.id') }}</th>
+                <th>{{ __('models.task.status') }}</th>
+                <th>{{ __('models.task.name') }}</th>
+                <th>{{ __('models.task.creator') }}</th>
+                <th>{{ __('models.task.assignee') }}</th>
+                <th>{{ __('models.task.createdAt') }}</th>
                 @auth
-                <th>{{ __('actions') }}</th>
+                <th>{{ __('models.task.actions') }}</th>
                 @endauth
             </tr>
         </thead>
@@ -33,10 +33,10 @@
                     @auth
                     <td>
                         <a href="{{ route('tasks.edit', $task) }}">
-                            {{ __('view.task.index.edit') }}
+                            {{ __('views.task.index.edit') }}
                         </a>
-                        <a href="{{ route('tasks.destroy', $task) }}" data-confirm="{{ __('view.task.index.confirm_remove') }}" data-method="delete">
-                            {{ __('view.task.index.remove') }}
+                        <a href="{{ route('tasks.destroy', $task) }}" data-confirm="{{ __('views.task.index.confirm') }}" data-method="delete">
+                            {{ __('views.task.index.delete') }}
                         </a>
                     </td>
                     @endauth
