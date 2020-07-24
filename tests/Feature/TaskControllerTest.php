@@ -51,7 +51,7 @@ class TaskControllerTest extends TestCase
 
     public function testUpdate()
     {
-        $updatedTask = factory(\App\Task::class)->make()->toArray();
+        $updatedTask = factory(\App\Task::class)->make(['created_by_id' => $this->user->id])->toArray();
         $response = $this->patch(route('tasks.update', $this->task), $updatedTask);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('tasks.index'));

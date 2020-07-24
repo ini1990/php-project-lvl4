@@ -30,8 +30,9 @@ class TaskController extends Controller
     public function create()
     {
         $taskStatuses = \App\TaskStatus::pluck('name', 'id');
+        $defaultStatus = $taskStatuses->search('new');
         $users = \App\User::pluck('name', 'id');
-        return view('task.create', compact('users', 'taskStatuses'));
+        return view('task.create', compact('users', 'taskStatuses', 'defaultStatus'));
     }
 
     /**
@@ -42,15 +43,14 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $validatedData = $request->validate([
             'name' => 'required',
             'status_id' => 'required',
-            'assigned_to_id' => 'required'
+            'assigned_to_id' => 'max:255'
         ]);
-        $task = new Task($request->all());
-        $task->created_by_id = auth()->user()->id;
-        $task->save();
-        flash()->success(__('Success'));
+        Task::create($validatedData + ['created_by_id' => auth()->user()->id]);
+
+        flash()->success(__('flashes.task.store'));
         return redirect()->route('tasks.index');
     }
 
@@ -74,8 +74,9 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         $taskStatuses = \App\TaskStatus::pluck('name', 'id');
+        $defaultStatus = $taskStatuses->firstWhere('name', 'new');
         $users = \App\User::pluck('name', 'id');
-        return view('task.edit', compact('task', 'users', 'taskStatuses'));
+        return view('task.edit', compact('task', 'users', 'taskStatuses', 'defaultStatus'));
     }
 
     /**
@@ -88,13 +89,12 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'status_id' => 'required',
-            'assigned_to_id' => 'required'
+            'name' => 'required|max:255|unique:tasks',
+            'status_id' => 'required|max:255',
+            'assigned_to_id' => 'max:255'
         ]);
-        $task->fill($request->all());
-        $task->save();
-        flash()->success(__('Success'));
+        $task->fill($request->all())->save();
+        flash()->success(__('flashes.task.update'));
         return redirect()->route('tasks.index');
     }
 
@@ -109,7 +109,10 @@ class TaskController extends Controller
         if ($task->createdBy->id !==  \Auth::id()) {
             abort(403);
         }
+
         $task->delete();
+        flash()->success(__('flashes.task.destroy'));
+
         return redirect()->route('tasks.index');
     }
 }
