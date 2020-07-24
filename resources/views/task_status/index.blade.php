@@ -24,7 +24,8 @@
             <td>{{$taskStatus->created_at}}</td>
             @auth
             <td>
-                <a href="{{ route('task_statuses.destroy', $taskStatus) }}" data-method="delete" rel="nofollow" data-confirm="{{ __('views.taskStatus.index.confirm') }}">{{ __('views.taskStatus.index.delete') }}</a>
+                <a href="{{ route('task_statuses.destroy', $taskStatus) }}" data-method="delete" rel="nofollow"
+                    data-confirm="{{ __('views.taskStatus.index.confirm') }}">{{ __('views.taskStatus.index.delete') }}</a>
                 <a href="{{ route('task_statuses.edit', $taskStatus) }}">
                     {{ __('views.taskStatus.index.edit') }}
                 </a>
