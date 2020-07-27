@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Task::class, function (Faker $faker) {
     return [
-        'name' => $faker->word,
+        'name' => $faker->unique()->word,
         'description' => $faker->text,
         'status_id' => factory(\App\TaskStatus::class)->create()->id,
         'created_by_id' => factory(\App\User::class)->create()->id,

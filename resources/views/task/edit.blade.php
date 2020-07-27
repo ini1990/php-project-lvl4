@@ -20,6 +20,19 @@
         {{ Form::label('assigned_to_id', __('models.task.assigned')) }}
         {{ Form::select('assigned_to_id', $users, $task->assigned_to_id, ['class' => 'form-control'])}}
     </div>
+    <div class="form-group col-md-4">
+        {{ Form::label('labels', __('views.task.creat.labels')) }}
+        <select name="labels[]" multiple class="multiselect-started form-control" data-placeholder="{{__('Choose Labels')}}"
+            data-tags="true">
+            @foreach ($labels as $name)
+            @if($task->labels()->pluck('name')->contains($name))
+            <option selected value="{{ $name }}">{{ $name }}</option>
+            @else
+            <option value="{{ $name }}">{{ $name }}</option>
+            @endif
+            @endforeach
+        </select>
+    </div>
     {{Form::submit(__('views.task.edit.update'), ['class' => 'btn btn-primary btn-bg'])}}
 
     {{Form::close()}}

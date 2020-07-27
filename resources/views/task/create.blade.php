@@ -20,6 +20,15 @@
         {{ Form::label('assigned_to_id', __('models.task.assignee')) }}
         {{ Form::select('assigned_to_id', $users, null, ['placeholder' => '-', 'class' => 'form-control'])}}
     </div>
+    <div class="form-group col-md-4">
+        {{ Form::label('labels', __('views.task.creat.labels')) }}
+        <select name="labels[]" multiple class="multiselect-started form-control" data-placeholder="Choose labels" data-tags="true">
+            @foreach ($labels as $label)
+                <option value="{{ $label }}">{{ $label }}</option>
+            @endforeach
+        </select>
+    </div>
+
     {{Form::submit(__('Add'), ['class' => 'btn btn-primary btn-bg'])}}
 
     {{Form::close()}}

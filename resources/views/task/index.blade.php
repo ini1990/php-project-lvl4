@@ -30,6 +30,8 @@
             <td>{{optional($task->createdBy)->name}}</td>
             <td>{{optional($task->assignedTo)->name ?? '-'}}</td>
             <td>{{$task->created_at}}</td>
+            <td>{{implode(', ', $task->labels->pluck('name')->all())}}</td>
+
             @auth
             <td>
                 <a href="{{ route('tasks.edit', $task) }}">
