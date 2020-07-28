@@ -6,6 +6,7 @@ use App\Task;
 use App\Label;
 use App\User;
 use App\TaskStatus;
+use App\Http\Requests\StoreTaskRequest;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -55,19 +56,14 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreTaskRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
         $labelIds = collect($request->input('labels'))
         ->map(fn ($name) => Label::firstOrCreate(compact('name'))->id);
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'status_id' => 'required',
-            'description' => '',
-            'assigned_to_id' => ''
-        ]);
+        $validatedData = $request->validated();
 
         Task::create($validatedData + ['created_by_id' => \Auth::id()])
         ->labels()->attach($labelIds);
@@ -108,16 +104,12 @@ class TaskController extends Controller
      * @param  Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task)
+    public function update(StoreTaskRequest $request, Task $task)
     {
-        $this->validate($request, [
-            'name' => 'required|max:255',
-            'status_id' => 'required|max:255',
-            'assigned_to_id' => 'max:255'
-        ]);
+        $validatedData = $request->validated();
         $labelIds = collect($request->input('labels'))
         ->map(fn ($name) => Label::firstOrCreate(compact('name'))->id);
-        $task->fill($request->all())
+        $task->fill($validatedData)
         ->save();
         $task->labels()->sync($labelIds);
         flash()->success(__('flashes.task.update'));
