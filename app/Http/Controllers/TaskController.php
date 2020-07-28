@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Task;
 use App\Label;
+use App\User;
+use App\TaskStatus;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class TaskController extends Controller
 {
@@ -17,12 +21,23 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = Task::all();
-        return view('task.index', compact('tasks'));
-    }
+        $users = User::pluck('name', 'id');
+        $labels = Label::pluck('name', 'id');
+        $taskStatuses = TaskStatus::pluck('name', 'id');
 
+        $tasks = QueryBuilder::for(Task::class)
+        ->with(['status', 'labels', 'assignee', 'creator'])
+        ->allowedFilters(
+            AllowedFilter::exact('status_id'),
+            AllowedFilter::exact('created_by_id'),
+            AllowedFilter::exact('assigned_to_id'),
+            AllowedFilter::exact('labels.id')
+        )->get();
+
+        return view('task.index', compact('tasks', 'labels', 'taskStatuses', 'users'));
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -30,11 +45,10 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $taskStatuses = \App\TaskStatus::pluck('name', 'id');
+        $taskStatuses = TaskStatus::pluck('name', 'id');
         $defaultStatus = $taskStatuses->search('new');
-        $users = \App\User::pluck('name', 'id');
+        $users = User::pluck('name', 'id');
         $labels = Label::pluck('name');
-        //dd($labels);
         return view('task.create', compact('users', 'taskStatuses', 'defaultStatus', 'labels'));
     }
 
@@ -51,12 +65,12 @@ class TaskController extends Controller
         $validatedData = $request->validate([
             'name' => 'required',
             'status_id' => 'required',
-            'assigned_to_id' => 'max:255'
+            'description' => '',
+            'assigned_to_id' => ''
         ]);
 
         Task::create($validatedData + ['created_by_id' => \Auth::id()])
         ->labels()->attach($labelIds);
-
         flash()->success(__('flashes.task.store'));
         return redirect()->route('tasks.index');
     }
@@ -64,7 +78,7 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Task  $task
+     * @param  Task  $task
      * @return \Illuminate\Http\Response
      */
     public function show(Task $task)
@@ -75,14 +89,14 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Task  $task
+     * @param  Task  $task
      * @return \Illuminate\Http\Response
      */
     public function edit(Task $task)
     {
-        $taskStatuses = \App\TaskStatus::pluck('name', 'id');
+        $taskStatuses = TaskStatus::pluck('name', 'id');
         $defaultStatus = $taskStatuses->firstWhere('name', 'new');
-        $users = \App\User::pluck('name', 'id');
+        $users = User::pluck('name', 'id');
         $labels = Label::pluck('name');
         return view('task.edit', compact('task', 'users', 'taskStatuses', 'defaultStatus', 'labels'));
     }
@@ -91,7 +105,7 @@ class TaskController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Task  $task
+     * @param  Task  $task
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Task $task)
@@ -113,7 +127,7 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Task  $task
+     * @param  Task  $task
      * @return \Illuminate\Http\Response
      */
     public function destroy(Task $task)

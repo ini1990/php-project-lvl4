@@ -17,7 +17,8 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.1",
         "laravelcollective/html": "^6.1",
-        "rollbar/rollbar-laravel": "^6.0"
+        "rollbar/rollbar-laravel": "^6.0",
+        "spatie/laravel-query-builder": "^2.8"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",
