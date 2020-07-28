@@ -14,5 +14,8 @@ return [
         'description' => 'Description',
         'assignee' => 'Assignee',
         'creator' => 'Creator'
+    ],
+    'label' => [
+        'labels' => 'Labels'
     ]
 ];
