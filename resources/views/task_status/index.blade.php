@@ -3,7 +3,7 @@
 @section('content')
 <h1 class="mb-5">{{ __('views.taskStatus.index.list') }}</h1>
 @auth
-<a href="{{ route('task_statuses.create') }}" class="btn btn-primary">{{ __('views.taskStatus.index.add') }}</a>
+<a href="{{ route('task_statuses.create') }}" class="btn btn-primary">{{ __('views.taskStatus.index.addNew') }}</a>
 @endauth
 <table class="table mt-2">
     <thead>
