@@ -8,10 +8,15 @@ return [
             'addNewTask' => 'Add new Task',
             'edit' => 'Edit',
             'delete' => 'Delete',
-            'confirm' => 'Are you sure?'
+            'confirm' => 'Are you sure?',
+            'apply' => 'Apply',
+            'actions' => 'Actions'
         ],
         'edit' => [
             'update' => 'Update'
+        ],
+        'create' => [
+            'chooseLabels' => 'Choose Labels'
         ]
     ],
     'taskStatus' => [
@@ -25,7 +30,7 @@ return [
         'index' => [
             'list' => 'List of Statuses',
             'actions' => 'Actions',
-            'addNewTask' => 'Add new Status',
+            'addNew' => 'Add New Status',
             'edit' => 'Edit',
             'delete' => 'Delete',
             'confirm' => 'Are you sure?'
