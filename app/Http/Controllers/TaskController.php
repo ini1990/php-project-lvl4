@@ -7,6 +7,7 @@ use App\Label;
 use App\User;
 use App\TaskStatus;
 use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -93,7 +94,7 @@ class TaskController extends Controller
         $taskStatuses = TaskStatus::pluck('name', 'id');
         $defaultStatus = $taskStatuses->firstWhere('name', 'new');
         $users = User::pluck('name', 'id');
-        $labels = Label::pluck('name');
+        $labels = Label::pluck('name', 'name');
         return view('task.edit', compact('task', 'users', 'taskStatuses', 'defaultStatus', 'labels'));
     }
 
@@ -104,7 +105,7 @@ class TaskController extends Controller
      * @param  Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreTaskRequest $request, Task $task)
+    public function update(UpdateTaskRequest $request, Task $task)
     {
         $validatedData = $request->validated();
         $labelIds = collect($request->input('labels'))
