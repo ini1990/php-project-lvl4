@@ -24,10 +24,10 @@ class UpdateTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:tasks|max:255' . $this->id,
+            'name' => 'required|max:255',
             'description' => 'string|nullable|max:255',
-            'status_id' => 'required|exists:task_statuses,id' . $this->id,
-            'assigned_to_id' => 'nullable|exists:users,id' . $this->id,
+            'status_id' => 'required|exists:task_statuses,id',
+            'assigned_to_id' => 'nullable|exists:users,id',
             'labels' => 'array|nullable'
         ];
     }
