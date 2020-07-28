@@ -37,8 +37,8 @@
             <td>{{$task->id}}</td>
             <td>{{optional($task->status)->name}}</td>
             <td><a href="{{ route('tasks.show', $task) }}">{{$task->name}}</a></td>
-            <td>{{optional($task->createdBy)->name}}</td>
-            <td>{{optional($task->assignedTo)->name ?? '-'}}</td>
+            <td>{{optional($task->creator)->name}}</td>
+            <td>{{optional($task->assignee)->name ?? '-'}}</td>
             <td>{{$task->created_at}}</td>
             <td>{{implode(', ', $task->labels->pluck('name')->all())}}</td>
 
