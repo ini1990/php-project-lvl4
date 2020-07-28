@@ -3,6 +3,15 @@
 @section('content')
 <h1 class="mb-5">{{ __('views.task.index.list') }}</h1>
 <div class="d-flex">
+    <div>
+        {{ Form::open(['route' => 'tasks.index', 'class' => 'form-inline', 'method' => 'GET']) }}
+        {{ Form::select('filter[status_id]', $taskStatuses, null, ['placeholder' => __('models.task.status'), 'class' => 'form-control mr-2']) }}
+        {{ Form::select('filter[created_by_id]', $users, null, ['placeholder' => __('models.task.creator'), 'class' => 'form-control mr-2']) }}
+        {{ Form::select('filter[assigned_to_id]', $users, null, ['placeholder' => __('models.task.assignee'), 'class' => 'form-control mr-2']) }}
+        {{ Form::select('filter[labels.id]', $labels, null, ['placeholder' => __('models.labels.labels'), 'class' => 'form-control mr-2']) }}
+        {{ Form::submit(__('views.task.index.apply'), ['class' => 'btn btn-outline-primary mr-2']) }}
+        {{ Form::close() }}
+    </div>
     @auth
     <a href="{{ route('tasks.create') }}" class="btn btn-primary ml-auto">{{ __('views.task.index.addNewTask') }}</a>
     @endauth
@@ -11,13 +20,14 @@
     <thead>
         <tr>
             <th>{{ __('models.task.id') }}</th>
-            <th>{{ __('models.task.status') }}</th>
             <th>{{ __('models.task.name') }}</th>
+            <th>{{ __('models.task.status') }}</th>
             <th>{{ __('models.task.creator') }}</th>
             <th>{{ __('models.task.assignee') }}</th>
             <th>{{ __('models.task.createdAt') }}</th>
+            <th>{{ __('models.labels.labels') }}</th>
             @auth
-            <th>{{ __('models.task.actions') }}</th>
+            <th>{{ __('views.task.index.actions') }}</th>
             @endauth
         </tr>
     </thead>
