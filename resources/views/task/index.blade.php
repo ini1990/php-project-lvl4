@@ -25,7 +25,7 @@
             <th>{{ __('models.task.creator') }}</th>
             <th>{{ __('models.task.assignee') }}</th>
             <th>{{ __('models.task.createdAt') }}</th>
-            <th>{{ __('models.labels.labels') }}</th>
+            <th>{{ __('models.label.labels') }}</th>
             @auth
             <th>{{ __('views.task.index.actions') }}</th>
             @endauth
