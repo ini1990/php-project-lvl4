@@ -21,8 +21,8 @@
         {{ Form::select('assigned_to_id', $users, null, ['placeholder' => '-', 'class' => 'form-control'])}}
     </div>
     <div class="form-group col-md-4">
-        {{ Form::label('labels', __('views.task.creat.labels')) }}
-        <select name="labels[]" multiple class="multiselect-started form-control" data-placeholder="Choose labels" data-tags="true">
+        {{ Form::label('labels', __('models.label.labels')) }}
+        <select name="labels[]" multiple class="multiselect-started form-control" data-placeholder="{{ __('views.task.create.chooseLabels') }}" data-tags="true">
             @foreach ($labels as $label)
                 <option value="{{ $label }}">{{ $label }}</option>
             @endforeach
