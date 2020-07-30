@@ -87,7 +87,7 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         $defaultStatus = TaskStatus::pluck('name', 'id')->firstWhere('name', 'new');
-        return view('task.edit', compact('task','defaultStatus'));
+        return view('task.edit', compact('task', 'defaultStatus'));
     }
 
     /**
