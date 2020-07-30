@@ -36,5 +36,11 @@ return [
             'delete' => 'Delete',
             'confirm' => 'Are you sure?'
         ]
+    ],
+    'welcome' => [
+        'taskManager' => 'Task Manager',
+        'description' => 'Simple implementation of typical task manager',
+        'hexletProject' => 'Hexlet Project',
+        'learnMore' => 'Learn more'
     ]
 ];
