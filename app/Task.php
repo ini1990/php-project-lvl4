@@ -22,7 +22,7 @@ class Task extends Model
 
     public function assignee()
     {
-        return $this->belongsTo('App\User', 'assigned_to_id');
+        return $this->belongsTo('App\User', 'assigned_to_id')->withDefault(['name' => '-']);
     }
 
     public function labels()

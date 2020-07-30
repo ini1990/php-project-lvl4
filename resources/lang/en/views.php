@@ -10,7 +10,8 @@ return [
             'delete' => 'Delete',
             'confirm' => 'Are you sure?',
             'apply' => 'Apply',
-            'actions' => 'Actions'
+            'actions' => 'Actions',
+            'labels' => 'Labels'
         ],
         'edit' => [
             'update' => 'Update'
