@@ -5,10 +5,10 @@
 <div class="d-flex">
     <div>
         {{ Form::open(['route' => 'tasks.index', 'class' => 'form-inline', 'method' => 'GET']) }}
-        {{ Form::select('filter[status_id]', $taskStatuses, null, ['placeholder' => __('models.task.status'), 'class' => 'form-control mr-2']) }}
-        {{ Form::select('filter[created_by_id]', $users, null, ['placeholder' => __('models.task.creator'), 'class' => 'form-control mr-2']) }}
-        {{ Form::select('filter[assigned_to_id]', $users, null, ['placeholder' => __('models.task.assignee'), 'class' => 'form-control mr-2']) }}
-        {{ Form::select('filter[labels.id]', $labels, null, ['placeholder' => __('models.labels.labels'), 'class' => 'form-control mr-2']) }}
+        {{ Form::select('filter[status_id]', $taskStatuses, optional($filters)['status_id'], ['placeholder' => __('models.task.status'), 'class' => 'form-control mr-2']) }}
+        {{ Form::select('filter[created_by_id]', $users, optional($filters)['created_by_id'], ['placeholder' => __('models.task.creator'), 'class' => 'form-control mr-2']) }}
+        {{ Form::select('filter[assigned_to_id]', $users, optional($filters)['assigned_to_id'], ['placeholder' => __('models.task.assignee'), 'class' => 'form-control mr-2']) }}
+        {{ Form::select('filter[labels.id]', $labels, optional($filters)['labels.id'], ['placeholder' => __('views.task.index.labels'), 'class' => 'form-control mr-2']) }}
         {{ Form::submit(__('views.task.index.apply'), ['class' => 'btn btn-outline-primary mr-2']) }}
         {{ Form::close() }}
     </div>
@@ -35,10 +35,10 @@
         @foreach($tasks as $task)
         <tr>
             <td>{{$task->id}}</td>
-            <td>{{optional($task->status)->name}}</td>
+            <td>{{$task->status->name}}</td>
             <td><a href="{{ route('tasks.show', $task) }}">{{$task->name}}</a></td>
-            <td>{{optional($task->creator)->name}}</td>
-            <td>{{optional($task->assignee)->name ?? '-'}}</td>
+            <td>{{$task->creator->name}}</td>
+            <td>{{$task->assignee->name ?? '-'}}</td>
             <td>{{$task->created_at}}</td>
             <td>{{implode(', ', $task->labels->pluck('name')->all())}}</td>
 

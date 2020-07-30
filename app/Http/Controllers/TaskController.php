@@ -7,7 +7,6 @@ use App\Label;
 use App\User;
 use App\TaskStatus;
 use App\Http\Requests\StoreTaskRequest;
-use App\Http\Requests\UpdateTaskRequest;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -25,9 +24,7 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::pluck('name', 'id');
-        $labels = Label::pluck('name', 'id');
-        $taskStatuses = TaskStatus::pluck('name', 'id');
+        $filters = optional($request->only('filter'))['filter'];
 
         $tasks = QueryBuilder::for(Task::class)
         ->with(['status', 'labels', 'assignee', 'creator'])
@@ -38,7 +35,7 @@ class TaskController extends Controller
             AllowedFilter::exact('labels.id')
         )->get();
 
-        return view('task.index', compact('tasks', 'labels', 'taskStatuses', 'users'));
+        return view('task.index', compact('tasks', 'filters'));
     }
     /**
      * Show the form for creating a new resource.
@@ -49,9 +46,7 @@ class TaskController extends Controller
     {
         $taskStatuses = TaskStatus::pluck('name', 'id');
         $defaultStatus = $taskStatuses->search('new');
-        $users = User::pluck('name', 'id');
-        $labels = Label::pluck('name');
-        return view('task.create', compact('users', 'taskStatuses', 'defaultStatus', 'labels'));
+        return view('task.create', compact('taskStatuses', 'defaultStatus'));
     }
 
     /**
@@ -91,11 +86,8 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $taskStatuses = TaskStatus::pluck('name', 'id');
-        $defaultStatus = $taskStatuses->firstWhere('name', 'new');
-        $users = User::pluck('name', 'id');
-        $labels = Label::pluck('name', 'name');
-        return view('task.edit', compact('task', 'users', 'taskStatuses', 'defaultStatus', 'labels'));
+        $defaultStatus = TaskStatus::pluck('name', 'id')->firstWhere('name', 'new');
+        return view('task.edit', compact('task', 'taskStatuses', 'defaultStatus'));
     }
 
     /**
@@ -105,7 +97,7 @@ class TaskController extends Controller
      * @param  Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTaskRequest $request, Task $task)
+    public function update(StoreTaskRequest $request, Task $task)
     {
         $validatedData = $request->validated();
         $labelIds = collect($request->input('labels'))
