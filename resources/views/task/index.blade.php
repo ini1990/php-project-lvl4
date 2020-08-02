@@ -40,7 +40,7 @@
             <td>{{$task->creator->name }}</td>
             <td>{{$task->assignee->name ?? '-'}}</td>
             <td>`{{$task->created_at}}</td>
-        <td>{{ '-' /*implode(', ', $task->labels->pluck('name')->all())*/}}</td>
+        <td>{{ implode(', ', $task->labels->pluck('name')->all())}}</td>
 
             @auth
             <td>
