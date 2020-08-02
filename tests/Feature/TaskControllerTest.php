@@ -33,7 +33,6 @@ class TaskControllerTest extends TestCase
     {
         $response = $this->get(route('tasks.create'));
         $response->assertStatus(200);
-        $response->assertSeeInOrder(__('views.task.create'));
         $response->assertSeeInOrder(User::pluck('name')->all());
         $response->assertSeeInOrder(TaskStatus::pluck('name')->all());
     }
