@@ -18,7 +18,8 @@ return [
             'chooseLabels' => 'Choose Labels'
         ],
         'create' => [
-            'chooseLabels' => 'Choose Labels'
+            'chooseLabels' => 'Choose Labels',
+            'labels' => 'Labels'
         ]
     ],
     'taskStatus' => [
