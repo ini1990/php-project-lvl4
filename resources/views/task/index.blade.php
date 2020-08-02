@@ -39,8 +39,8 @@
             <td><a href="{{ route('tasks.show', $task) }}">{{$task->name}}</a></td>
             <td>{{$task->creator->name }}</td>
             <td>{{$task->assignee->name ?? '-'}}</td>
-            <td>{{$task->created_at}}</td>
-        <td>{{ - /*implode(', ', $task->labels->pluck('name')->all())*/}}</td>
+            <td>`{{$task->created_at}}</td>
+        <td>{{ '-' /*implode(', ', $task->labels->pluck('name')->all())*/}}</td>
 
             @auth
             <td>
