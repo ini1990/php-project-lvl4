@@ -17,12 +17,12 @@
         {{ Form::select('status_id', $taskStatuses, $task->status_id, ['class' => 'form-control']) }}
     </div>
     <div class="form-group col-md-4">
-        {{ Form::label('assigned_to_id', __('models.task.assigned')) }}
+        {{ Form::label('assigned_to_id', __('models.task.assignee')) }}
         {{ Form::select('assigned_to_id', $users, $task->assigned_to_id, ['class' => 'form-control'])}}
     </div>
     <div class="form-group col-md-4">
-        {{ Form::label('labels', __('views.task.creat.labels')) }}
-        <select name="labels[]" multiple class="multiselect-started form-control" data-placeholder="{{__('Choose Labels')}}"
+        {{ Form::label('labels', __('views.task.create.labels')) }}
+        <select name="labels[]" multiple class="multiselect-started form-control" data-placeholder="{{__('views.task.edit.chooseLabel')}}"
             data-tags="true">
             @foreach ($labels as $name)
             @if($task->labels()->pluck('name')->contains($name))

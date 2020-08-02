@@ -14,7 +14,8 @@ return [
             'labels' => 'Labels'
         ],
         'edit' => [
-            'update' => 'Update'
+            'update' => 'Update',
+            'chooseLabels' => 'Choose Labels'
         ],
         'create' => [
             'chooseLabels' => 'Choose Labels'
