@@ -16,6 +16,9 @@ return [
         'creator' => 'Creator'
     ],
     'label' => [
-        'labels' => 'Labels'
+        'labels' => 'Labels',
+        'id' => 'Id',
+        'name' => 'Name',
+        'createdAt' => 'Created At'
     ]
 ];

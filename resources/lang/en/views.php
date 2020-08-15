@@ -39,6 +39,23 @@ return [
             'confirm' => 'Are you sure?'
         ]
     ],
+    'label' => [
+        'edit' => [
+            'update' => 'Update'
+        ],
+        'create' => [
+            'createNewLabel' => 'Create New Label',
+            'create' => 'Create'
+        ],
+        'index' => [
+            'list' => 'List of Labels',
+            'actions' => 'Actions',
+            'addNew' => 'Add New Label',
+            'edit' => 'Edit',
+            'delete' => 'Delete',
+            'confirm' => 'Are you sure?'
+        ]
+    ],
     'welcome' => [
         'taskManager' => 'Task Manager',
         'description' => 'Simple implementation of typical task manager',

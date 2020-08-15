@@ -3,6 +3,7 @@
 return [
     'app' => [
         'tasks' => 'Tasks',
-        'statuses' => 'Statuses'
+        'statuses' => 'Statuses',
+        'labels' => 'Labels'
     ]
 ];

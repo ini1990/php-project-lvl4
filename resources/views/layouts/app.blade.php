@@ -36,6 +36,11 @@
                 <a class="navbar" href="{{ route('task_statuses.index') }}">
                     {{__('layouts.app.statuses')}}
                 </a>
+
+                <a class="navbar" href="{{ route('labels.index') }}">
+                    {{__('layouts.app.labels')}}
+                </a>
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="{{ __('Toggle navigation') }}">

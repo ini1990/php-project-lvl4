@@ -25,3 +25,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/task_statuses', 'TaskStatusController');
 
 Route::resource('/tasks', 'TaskController');
+
+Route::resource('/labels', 'LabelController');
