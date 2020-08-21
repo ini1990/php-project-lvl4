@@ -48,7 +48,7 @@
                     {{ __('views.task.index.edit') }}
                 </a>
 
-                @can('delete-task', $task)
+                @can('destroy', $task)
 
                 <a href="{{ route('tasks.destroy', $task) }}" data-confirm="{{ __('views.task.index.confirm') }}"
                     data-method="delete">
