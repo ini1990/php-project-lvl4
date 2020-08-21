@@ -32,4 +32,4 @@ lint:
 	composer phpcs
 
 test-coverage:
-	composer test -- --coverage-clover build/logs/clover.xml
+	php artisan test -- --coverage-clover build/logs/clover.xml
