@@ -30,3 +30,6 @@ deploy:
 
 lint:
 	composer phpcs
+
+test-coverage:
+	composer test -- --coverage-clover build/logs/clover.xml
