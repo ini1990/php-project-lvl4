@@ -63,6 +63,13 @@ class TaskControllerTest extends TestCase
         $response->assertSeeTextInOrder($this->task->pluck('name', 'description')->all());
     }
 
+    public function testEdit()
+    {
+        $response = $this->get(route('tasks.edit', $this->task));
+        $response->assertOk();
+        $response->assertSee($this->task->name);
+    }
+
     public function testUpdate()
     {
         $updatedTask = factory(Task::class)->make(['created_by_id' => $this->user->id])->toArray();
