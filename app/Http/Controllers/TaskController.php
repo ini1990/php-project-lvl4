@@ -117,7 +117,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        \Gate::authorize('delete-task', $task);
+        $this->authorize('destroy', $task);
         $task->labels()->detach();
         $task->delete();
         flash()->success(__('flashes.task.destroy'));
