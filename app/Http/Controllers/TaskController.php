@@ -57,12 +57,14 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        $labelIds = collect($request->input('labels'))
-        ->map(fn ($name) => Label::firstOrCreate(compact('name'))->id);
-        $validatedData = $request->validated();
+        $validatedData = $request->validated() + ['created_by_id' => \Auth::id()];
+        $task = Task::create($validatedData);
 
-        Task::create($validatedData + ['created_by_id' => \Auth::id()])
-        ->labels()->attach($labelIds);
+        $labelIds = collect($request->labels)
+            ->map(fn ($name) => Label::firstOrCreate(compact('name'))->id);
+        $task->labels()->attach($labelIds);
+        $task->save();
+
         flash()->success(__('flashes.task.store'));
         return redirect()->route('tasks.index');
     }
@@ -86,8 +88,7 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $defaultStatus = TaskStatus::pluck('name', 'id')->firstWhere('name', 'new');
-        return view('task.edit', compact('task', 'defaultStatus'));
+        return view('task.edit', compact('task'));
     }
 
     /**
@@ -117,7 +118,9 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        $this->authorize($task);
+        $this->authorize('destroy', $task);
+        //$this->authorize($task);
+
         $task->labels()->detach();
         $task->delete();
         flash()->success(__('flashes.task.destroy'));

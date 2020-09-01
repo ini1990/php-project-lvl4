@@ -22,6 +22,6 @@ class TaskPolicy
 
     public function destroy(User $user, Task $task)
     {
-        return $user->id === $task->created_by_id;
+        return $task->creator()->first()->is($user);
     }
 }

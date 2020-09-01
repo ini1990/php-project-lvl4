@@ -12,9 +12,10 @@ class TaskControllerTest extends TestCase
 {
     public function setUp(): void
     {
+
         parent::setUp();
 
-        //$this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
         $this->user = factory(User::class)->create();
         $this->label = factory(Label::class)->create();
         $this->task = factory(Task::class)->create(['created_by_id' => $this->user->id]);
@@ -47,13 +48,17 @@ class TaskControllerTest extends TestCase
 
         $this->assertDatabaseHas('tasks', $taskData);
         $this->assertDatabaseHas('labels', $labelData);
+
+        $latestTask = Task::latest('id')->first();
+        $latestLabel = Label::latest('id')->first();
         $this->assertEquals(
-            Label::latest('id')->first()->tasks()->first()->id,
-            Task::latest('id')->first()->id
+            $latestLabel->tasks()->first()->id,
+            $latestTask->id
         );
         $this->assertDatabaseHas('label_task', [
-            'task_id' => Task::latest('id')->first()->id,
-            'label_id' => Label::latest('id')->first()->id]);
+            'task_id' => $latestTask->id,
+            'label_id' => $latestLabel->id
+        ]);
     }
 
     public function testShow()
@@ -84,16 +89,10 @@ class TaskControllerTest extends TestCase
 
     public function testDestroy()
     {
-        $this->assertFalse(\Auth::user()->can('delete', $this->task));
-        $response = $this->delete(route('tasks.destroy', $this->task));
-        $response->assertStatus(403);
-
-        \Gate::before(fn () => $this->task->created_by_id === \Auth::id());
-        $this->assertTrue(\Auth::user()->can('delete', $this->task));
-
         $response = $this->delete(route('tasks.destroy', $this->task));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect(route('tasks.index'));
-        $this->assertDatabaseMissing('tasks', ['id' => $this->task->id, 'name' => $this->task->name]);
+
+        $this->assertDatabaseMissing('tasks', ['id' => $this->task->id]);
     }
 }
