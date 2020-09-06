@@ -57,8 +57,7 @@ class TaskController extends Controller
      */
     public function store(StoreTaskRequest $request)
     {
-        $validatedData = $request->validated() + ['created_by_id' => \Auth::id()];
-        $task = Task::create($validatedData);
+        $task = \Auth::user()->createdTasks()->create($request->validated());
 
         $labelIds = collect($request->labels)
             ->map(fn ($name) => Label::firstOrCreate(compact('name'))->id);
